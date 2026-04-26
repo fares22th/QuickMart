@@ -1,0 +1,107 @@
+{
+  "brand": "QuickMart",
+  "tagline": "تسوّق بذكاء، وفّر أكثر",
+  "tagline_sub": "آلاف المنتجات من أفضل المتاجر في مكان واحد",
+
+  "nav": {
+    "seller_portal": "بوابة البائعين",
+    "admin_portal": "بوابة الإدارة"
+  },
+
+  "login": {
+    "title": "مرحباً بعودتك",
+    "subtitle": "أدخل بياناتك للدخول إلى حسابك",
+    "email": "البريد الإلكتروني",
+    "email_placeholder": "example@email.com",
+    "password": "كلمة المرور",
+    "password_placeholder": "••••••••",
+    "remember": "تذكرني",
+    "forgot": "نسيت كلمة المرور؟",
+    "submit": "تسجيل الدخول",
+    "submitting": "جاري الدخول...",
+    "no_account": "ليس لديك حساب؟",
+    "register_free": "إنشاء حساب مجاني",
+    "or": "أو",
+    "social_google": "المتابعة عبر Google",
+    "social_apple": "المتابعة عبر Apple",
+    "other_portals": "هل أنت بائع أو مدير؟"
+  },
+
+  "register": {
+    "title": "إنشاء حساب جديد",
+    "subtitle": "أنشئ حسابك وابدأ التسوق الآن",
+    "name": "الاسم الكامل",
+    "name_placeholder": "محمد عبدالله",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "confirm_password": "تأكيد كلمة المرور",
+    "terms": "أوافق على",
+    "terms_link": "الشروط والأحكام",
+    "privacy_link": "سياسة الخصوصية",
+    "and": "و",
+    "submit": "إنشاء الحساب",
+    "submitting": "جاري الإنشاء...",
+    "has_account": "لديك حساب بالفعل؟",
+    "login": "تسجيل الدخول",
+    "register_as_seller": "سجّل كبائع",
+    "admin_access": "دخول المدير"
+  },
+
+  "forgot": {
+    "title": "نسيت كلمة المرور؟",
+    "subtitle": "أدخل بريدك الإلكتروني وسنرسل لك رابط الإعادة",
+    "email": "البريد الإلكتروني",
+    "email_placeholder": "example@email.com",
+    "submit": "إرسال رابط الإعادة",
+    "submitting": "جاري الإرسال...",
+    "back_login": "العودة لتسجيل الدخول",
+    "success_title": "تم الإرسال!",
+    "success_sub": "تحقق من بريدك الإلكتروني للحصول على رابط إعادة تعيين كلمة المرور"
+  },
+
+  "otp": {
+    "title": "التحقق من الهوية",
+    "subtitle": "أدخل الرمز المكوّن من 6 أرقام المرسل إلى",
+    "submit": "تحقق",
+    "submitting": "جاري التحقق...",
+    "resend": "إعادة إرسال الرمز",
+    "resend_in": "إعادة الإرسال بعد",
+    "seconds": "ثانية"
+  },
+
+  "stats": {
+    "stores": "+٢٠٠",
+    "stores_label": "متجر شريك",
+    "customers": "+٥٠ألف",
+    "customers_label": "عميل نشط",
+    "satisfaction": "٩٨٪",
+    "satisfaction_label": "رضا العملاء"
+  },
+
+  "features": {
+    "delivery": "توصيل سريع",
+    "delivery_sub": "خلال ساعات",
+    "payment": "دفع آمن",
+    "payment_sub": "١٠٠٪ مضمون",
+    "returns": "إرجاع سهل",
+    "returns_sub": "٧ أيام"
+  },
+
+  "errors": {
+    "email_invalid": "البريد الإلكتروني غير صحيح",
+    "password_short": "كلمة المرور يجب أن تكون ٦ أحرف على الأقل",
+    "passwords_mismatch": "كلمتا المرور غير متطابقتين",
+    "name_short": "الاسم يجب أن يكون حرفين على الأقل",
+    "terms_required": "يجب الموافقة على الشروط",
+    "required": "هذا الحقل مطلوب"
+  },
+
+  "dev": {
+    "title": "وضع التطوير — دخول سريع",
+    "customer": "زبون",
+    "seller": "بائع",
+    "admin": "مدير"
+  },
+
+  "copyright": "جميع الحقوق محفوظة"
+}

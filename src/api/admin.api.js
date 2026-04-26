@@ -128,6 +128,16 @@ export async function updateCustomer(id, payload) {
 }
 
 // ── Sellers / Stores ───────────────────────────────────────────────────
+export async function getStore(id) {
+  const { data, error } = await supabase
+    .from('seller_stores')
+    .select('*, seller_profiles(id, name, phone, email, national_id, avatar_url, created_at)')
+    .eq('id', id)
+    .single()
+  throwIf(error)
+  return data
+}
+
 export async function getAllStores({ status, search, limit = 50, offset = 0 } = {}) {
   let q = supabase
     .from('seller_stores').select('*, seller_profiles(name, phone, avatar_url)')

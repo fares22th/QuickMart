@@ -1,7 +1,8 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
-import { Search, CheckCircle, XCircle, PauseCircle, PlayCircle, Store, Star, MapPin, Tag, Clock, ExternalLink, Filter, Download, BarChart3 } from 'lucide-react'
+import { Search, CheckCircle, XCircle, PauseCircle, PlayCircle, Store, Star, MapPin, Tag, ExternalLink, Download } from 'lucide-react'
 import { getAllStores, setStoreStatus } from '@/api/admin.api'
 
 const STATUS_META = {
@@ -74,27 +75,31 @@ function StoreCard({ store, onAction }) {
           {store.status === 'pending' && (
             <>
               <button onClick={() => onAction(store.id, 'active')}
-                className="flex-1 py-2 bg-green-600 hover:bg-green-700 text-white rounded-xl text-xs font-semibold transition-colors flex items-center justify-center gap-1.5">
+                className="flex-1 py-2 bg-green-600 hover:bg-green-700 text-white rounded-xl text-xs font-semibold transition-colors flex items-center justify-center gap-1.5 active:scale-95">
                 <CheckCircle className="w-3.5 h-3.5" /> موافقة
               </button>
-              <button onClick={() => onAction(store.id, 'suspended')}
-                className="flex-1 py-2 bg-red-50 text-red-600 hover:bg-red-100 rounded-xl text-xs font-semibold transition-colors flex items-center justify-center gap-1.5">
+              <button onClick={() => onAction(store.id, 'rejected')}
+                className="flex-1 py-2 bg-red-50 text-red-600 hover:bg-red-100 rounded-xl text-xs font-semibold transition-colors flex items-center justify-center gap-1.5 border border-red-200 active:scale-95">
                 <XCircle className="w-3.5 h-3.5" /> رفض
               </button>
             </>
           )}
           {store.status === 'active' && (
             <button onClick={() => onAction(store.id, 'suspended')}
-              className="flex-1 py-2 bg-red-50 text-red-600 hover:bg-red-100 rounded-xl text-xs font-semibold transition-colors flex items-center justify-center gap-1.5">
+              className="flex-1 py-2 bg-amber-50 text-amber-700 hover:bg-amber-100 rounded-xl text-xs font-semibold transition-colors flex items-center justify-center gap-1.5 border border-amber-200 active:scale-95">
               <PauseCircle className="w-3.5 h-3.5" /> إيقاف
             </button>
           )}
-          {store.status === 'suspended' && (
+          {(store.status === 'suspended' || store.status === 'rejected') && (
             <button onClick={() => onAction(store.id, 'active')}
-              className="flex-1 py-2 bg-green-50 text-green-600 hover:bg-green-100 rounded-xl text-xs font-semibold transition-colors flex items-center justify-center gap-1.5">
+              className="flex-1 py-2 bg-green-50 text-green-600 hover:bg-green-100 rounded-xl text-xs font-semibold transition-colors flex items-center justify-center gap-1.5 border border-green-200 active:scale-95">
               <PlayCircle className="w-3.5 h-3.5" /> تفعيل
             </button>
           )}
+          <Link to={`/admin/sellers/${store.id}`}
+            className="py-2 px-3 bg-gray-50 hover:bg-gray-100 text-gray-500 rounded-xl text-xs font-semibold transition-colors flex items-center gap-1 border border-gray-100">
+            <ExternalLink className="w-3.5 h-3.5" />
+          </Link>
         </div>
       </div>
     </div>

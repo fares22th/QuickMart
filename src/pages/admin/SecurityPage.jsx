@@ -46,7 +46,7 @@ export default function SecurityPage() {
   const [blocked,       setBlocked]       = useState(MOCK_BLOCKED)
   const [securityScore] = useState(78)
 
-  const apiKey = 'sk_live_q1w2e3r4t5y6u7i8o9p0aAbBcCdDeEfF'
+  const apiKey = import.meta.env.VITE_API_SECRET_KEY ?? 'qm_••••••••••••••••••••••••••••••••'
 
   const copyKey = () => { navigator.clipboard.writeText(apiKey); toast.success('تم نسخ المفتاح') }
   const revokeSession = id => toast.success('تم إنهاء الجلسة')

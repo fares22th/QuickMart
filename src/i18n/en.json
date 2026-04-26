@@ -1,0 +1,107 @@
+{
+  "brand": "QuickMart",
+  "tagline": "Shop Smart, Save More",
+  "tagline_sub": "Thousands of products from the best stores, all in one place",
+
+  "nav": {
+    "seller_portal": "Seller Portal",
+    "admin_portal": "Admin Portal"
+  },
+
+  "login": {
+    "title": "Welcome Back",
+    "subtitle": "Sign in to your account to continue",
+    "email": "Email Address",
+    "email_placeholder": "example@email.com",
+    "password": "Password",
+    "password_placeholder": "••••••••",
+    "remember": "Remember me",
+    "forgot": "Forgot password?",
+    "submit": "Sign In",
+    "submitting": "Signing in...",
+    "no_account": "Don't have an account?",
+    "register_free": "Create free account",
+    "or": "or",
+    "social_google": "Continue with Google",
+    "social_apple": "Continue with Apple",
+    "other_portals": "Are you a seller or admin?"
+  },
+
+  "register": {
+    "title": "Create New Account",
+    "subtitle": "Sign up and start shopping now",
+    "name": "Full Name",
+    "name_placeholder": "John Smith",
+    "email": "Email Address",
+    "password": "Password",
+    "confirm_password": "Confirm Password",
+    "terms": "I agree to the",
+    "terms_link": "Terms & Conditions",
+    "privacy_link": "Privacy Policy",
+    "and": "and",
+    "submit": "Create Account",
+    "submitting": "Creating account...",
+    "has_account": "Already have an account?",
+    "login": "Sign In",
+    "register_as_seller": "Register as Seller",
+    "admin_access": "Admin Access"
+  },
+
+  "forgot": {
+    "title": "Forgot Password?",
+    "subtitle": "Enter your email and we'll send you a reset link",
+    "email": "Email Address",
+    "email_placeholder": "example@email.com",
+    "submit": "Send Reset Link",
+    "submitting": "Sending...",
+    "back_login": "Back to Sign In",
+    "success_title": "Email Sent!",
+    "success_sub": "Check your inbox for the password reset link"
+  },
+
+  "otp": {
+    "title": "Verify Your Identity",
+    "subtitle": "Enter the 6-digit code sent to",
+    "submit": "Verify",
+    "submitting": "Verifying...",
+    "resend": "Resend Code",
+    "resend_in": "Resend in",
+    "seconds": "s"
+  },
+
+  "stats": {
+    "stores": "200+",
+    "stores_label": "Partner Stores",
+    "customers": "50K+",
+    "customers_label": "Active Customers",
+    "satisfaction": "98%",
+    "satisfaction_label": "Satisfaction Rate"
+  },
+
+  "features": {
+    "delivery": "Fast Delivery",
+    "delivery_sub": "Within hours",
+    "payment": "Secure Payment",
+    "payment_sub": "100% Guaranteed",
+    "returns": "Easy Returns",
+    "returns_sub": "7-day policy"
+  },
+
+  "errors": {
+    "email_invalid": "Invalid email address",
+    "password_short": "Password must be at least 6 characters",
+    "passwords_mismatch": "Passwords do not match",
+    "name_short": "Name must be at least 2 characters",
+    "terms_required": "You must accept the terms",
+    "required": "This field is required"
+  },
+
+  "dev": {
+    "title": "Dev Mode — Quick Login",
+    "customer": "Customer",
+    "seller": "Seller",
+    "admin": "Admin"
+  },
+
+  "copyright": "All rights reserved"
+}
