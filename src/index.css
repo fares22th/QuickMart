@@ -1,0 +1,42 @@
+@import "tailwindcss";
+
+@theme {
+  --font-cairo: 'Cairo', sans-serif;
+
+  --color-primary:       #00C896;
+  --color-primary-dark:  #00A878;
+  --color-primary-light: #E6FAF5;
+  --color-accent:        #FF6B35;
+  --color-seller:        #F59E0B;
+  --color-seller-dark:   #D97706;
+  --color-admin:         #6366F1;
+  --color-admin-dark:    #4F46E5;
+
+  --radius-2xl: 16px;
+  --radius-3xl: 24px;
+}
+
+@layer base {
+  html {
+    font-family: 'Cairo', sans-serif;
+    direction: rtl;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    @apply bg-gray-50 text-gray-900;
+  }
+}
+
+@layer utilities {
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
