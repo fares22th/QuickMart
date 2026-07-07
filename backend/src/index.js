@@ -66,6 +66,17 @@ app.get('/debug/env', (_, res) => {
   res.json(result)
 })
 
+// Debug — test DB connection
+app.get('/debug/db', async (_, res) => {
+  try {
+    const { prisma } = await import('./lib/prisma.js')
+    const count = await prisma.user.count()
+    res.json({ db: '✅ connected', users: count })
+  } catch (e) {
+    res.json({ db: '❌ failed', error: e.message })
+  }
+})
+
 // 404
 app.use((_, res) => res.status(404).json({ error: 'Not found' }))
 
