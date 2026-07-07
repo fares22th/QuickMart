@@ -58,6 +58,14 @@ app.use('/api/driver',   driverRoutes)
 // Health check
 app.get('/health', (_, res) => res.json({ status: 'ok', timestamp: new Date().toISOString() }))
 
+// Debug — shows which env vars are missing (no secret values exposed)
+app.get('/debug/env', (_, res) => {
+  const required = ['DATABASE_URL','JWT_SECRET','JWT_REFRESH_SECRET','NODE_ENV']
+  const result = {}
+  for (const k of required) result[k] = process.env[k] ? '✅ set' : '❌ MISSING'
+  res.json(result)
+})
+
 // 404
 app.use((_, res) => res.status(404).json({ error: 'Not found' }))
 
