@@ -80,36 +80,36 @@ async function main() {
 
   // ── Products ──────────────────────────────────────────
   const products1 = [
-    { name: 'حليب طازج ١ لتر', category: 'dairy', price: 5.5, stock: 200, unit: 'قطعة', description: 'حليب طازج كامل الدسم' },
-    { name: 'بيض دجاج طازج ١٢ حبة', category: 'dairy', price: 18, stock: 150, unit: 'كرتون', description: 'بيض طازج مباشر من المزرعة' },
-    { name: 'دجاج مبرد ١ كيلو', category: 'meat', price: 24, comparePrice: 28, stock: 80, unit: 'كيلو', description: 'دجاج طازج مبرد' },
-    { name: 'أرز بسمتي ٥ كيلو', category: 'grains', price: 45, stock: 100, unit: 'كيس', description: 'أرز بسمتي فاخر' },
-    { name: 'زيت زيتون بكر ٧٥٠ مل', category: 'oils', price: 65, comparePrice: 75, stock: 60, unit: 'زجاجة', description: 'زيت زيتون بكر ممتاز' },
-    { name: 'طماطم طازجة ١ كيلو', category: 'vegetables', price: 8, stock: 300, unit: 'كيلو', description: 'طماطم طازجة يومية' },
-    { name: 'موز ١ كيلو', category: 'fruits', price: 12, stock: 200, unit: 'كيلو', description: 'موز حلو ناضج' },
-    { name: 'ماء معدني ١٫٥ لتر', category: 'beverages', price: 3, stock: 500, unit: 'زجاجة', description: 'مياه معدنية نقية' },
+    { name: 'حليب طازج ١ لتر',        category: 'dairy',     price: 5.5, stock: 200, unit: 'قطعة',  description: 'حليب طازج كامل الدسم',          images: ['https://images.unsplash.com/photo-1563636619-e9143da7973b?w=400'] },
+    { name: 'بيض دجاج طازج ١٢ حبة',   category: 'dairy',     price: 18,  stock: 150, unit: 'كرتون', description: 'بيض طازج مباشر من المزرعة',      images: ['https://images.unsplash.com/photo-1582722872445-44dc5f7e3c8f?w=400'] },
+    { name: 'دجاج مبرد ١ كيلو',        category: 'meat',      price: 24, comparePrice: 28, stock: 80, unit: 'كيلو',  description: 'دجاج طازج مبرد', images: ['https://images.unsplash.com/photo-1604503468506-a8da13d11d36?w=400'] },
+    { name: 'أرز بسمتي ٥ كيلو',        category: 'grains',    price: 45,  stock: 100, unit: 'كيس',   description: 'أرز بسمتي فاخر',                images: ['https://images.unsplash.com/photo-1586201375761-83865001e31c?w=400'] },
+    { name: 'زيت زيتون بكر ٧٥٠ مل',   category: 'oils',      price: 65, comparePrice: 75, stock: 60, unit: 'زجاجة', description: 'زيت زيتون بكر ممتاز', images: ['https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=400'] },
+    { name: 'طماطم طازجة ١ كيلو',      category: 'vegetables', price: 8,  stock: 300, unit: 'كيلو',  description: 'طماطم طازجة يومية',             images: ['https://images.unsplash.com/photo-1546094096-0df4bcaaa337?w=400'] },
+    { name: 'موز ١ كيلو',              category: 'fruits',    price: 12,  stock: 200, unit: 'كيلو',  description: 'موز حلو ناضج',                  images: ['https://images.unsplash.com/photo-1481349518771-20055b2a7b24?w=400'] },
+    { name: 'ماء معدني ١٫٥ لتر',       category: 'beverages', price: 3,   stock: 500, unit: 'زجاجة', description: 'مياه معدنية نقية',              images: ['https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=400'] },
   ]
 
   for (const p of products1) {
     await prisma.product.upsert({
       where: { storeId_name: { storeId: store1.id, name: p.name } },
       create: { storeId: store1.id, ...p, isActive: true, salesCount: Math.floor(Math.random() * 100) },
-      update: {},
+      update: { images: p.images },
     }).catch(() => {})
   }
 
   const products2 = [
-    { name: 'خبز عربي طازج ٥ أرغفة', category: 'bakery', price: 6, stock: 100, unit: 'كيس', description: 'خبز عربي طازج من الفرن' },
-    { name: 'كرواسون بالزبدة ٦ حبات', category: 'bakery', price: 22, comparePrice: 26, stock: 50, unit: 'علبة', description: 'كرواسون فرنسي طازج' },
-    { name: 'كعك الشاي المنزلي', category: 'sweets', price: 35, stock: 40, unit: 'كيلو', description: 'كعك شاي تقليدي' },
-    { name: 'سمبوسة لحم ١٢ حبة', category: 'bakery', price: 28, stock: 60, unit: 'علبة', description: 'سمبوسة لحم محلية الصنع' },
+    { name: 'خبز عربي طازج ٥ أرغفة',   category: 'bakery', price: 6,  stock: 100, unit: 'كيس',   description: 'خبز عربي طازج من الفرن',    images: ['https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400'] },
+    { name: 'كرواسون بالزبدة ٦ حبات',  category: 'bakery', price: 22, comparePrice: 26, stock: 50, unit: 'علبة', description: 'كرواسون فرنسي طازج', images: ['https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=400'] },
+    { name: 'كعك الشاي المنزلي',        category: 'sweets', price: 35, stock: 40,  unit: 'كيلو',  description: 'كعك شاي تقليدي',           images: ['https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=400'] },
+    { name: 'سمبوسة لحم ١٢ حبة',       category: 'bakery', price: 28, stock: 60,  unit: 'علبة',  description: 'سمبوسة لحم محلية الصنع',   images: ['https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400'] },
   ]
 
   for (const p of products2) {
     await prisma.product.upsert({
       where: { storeId_name: { storeId: store2.id, name: p.name } },
       create: { storeId: store2.id, ...p, isActive: true, salesCount: Math.floor(Math.random() * 50) },
-      update: {},
+      update: { images: p.images },
     }).catch(() => {})
   }
 
