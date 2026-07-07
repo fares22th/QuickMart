@@ -69,4 +69,4 @@ app.use((err, req, res, next) => {
 
 // ── Start ──────────────────────────────────────────────────
 const PORT = process.env.PORT ?? 4000
-http.listen(PORT, () => console.log(`🚀 QuickMart API running on http://localhost:${PORT}`))
+http.listen(PORT, '0.0.0.0', () => console.log(`🚀 QuickMart API running on port ${PORT}`))

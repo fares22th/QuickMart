@@ -4,7 +4,7 @@ let _io = null
 
 export function initSocket(httpServer, corsOrigins) {
   _io = new SocketIO(httpServer, {
-    cors: { origin: corsOrigins.filter(Boolean), credentials: true },
+    cors: { origin: Array.isArray(corsOrigins) ? corsOrigins.filter(Boolean) : corsOrigins, credentials: true },
   })
 
   _io.on('connection', (socket) => {
