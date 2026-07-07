@@ -3,7 +3,7 @@ services:
     name: quickmart-api
     runtime: node
     plan: free
-    buildCommand: npm install && npx prisma generate
+    buildCommand: npm ci && npx prisma generate
     startCommand: node src/index.js
     healthCheckPath: /health
     envVars:
