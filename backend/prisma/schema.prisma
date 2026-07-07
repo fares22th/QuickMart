@@ -1,0 +1,462 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// ─────────────────────────────────────────
+// ENUMS
+// ─────────────────────────────────────────
+
+enum Role {
+  customer
+  seller
+  admin
+  driver
+}
+
+enum UserStatus {
+  active
+  banned
+  suspended
+}
+
+enum SellerStatus {
+  pending
+  active
+  suspended
+  rejected
+}
+
+enum OrderStatus {
+  pending
+  confirmed
+  preparing
+  shipped
+  delivered
+  cancelled
+}
+
+enum DisputeStatus {
+  open
+  pending
+  resolved
+  rejected
+}
+
+enum AdPosition {
+  banner
+  popup
+  sidebar
+}
+
+enum CouponType {
+  percent
+  fixed
+}
+
+enum PaymentType {
+  credit
+  debit
+  withdrawal
+}
+
+// ─────────────────────────────────────────
+// USERS
+// ─────────────────────────────────────────
+
+model User {
+  id        String     @id @default(cuid())
+  name      String
+  phone     String     @unique
+  email     String?    @unique
+  password  String
+  role      Role       @default(customer)
+  status    UserStatus @default(active)
+  avatar    String?
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  addresses     Address[]
+  orders        Order[]          @relation("CustomerOrders")
+  reviews       Review[]
+  wishlist      WishlistItem[]
+  refreshTokens RefreshToken[]
+  disputes      Dispute[]        @relation("CustomerDisputes")
+  activityLogs  ActivityLog[]
+
+  store  Store?
+  driver Driver?
+
+  @@index([phone])
+  @@index([role])
+}
+
+model RefreshToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+// ─────────────────────────────────────────
+// ADDRESSES
+// ─────────────────────────────────────────
+
+model Address {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  label     String
+  city      String
+  district  String?
+  street    String?
+  building  String?
+  notes     String?
+  isDefault Boolean  @default(false)
+  lat       Float?
+  lng       Float?
+  createdAt DateTime @default(now())
+
+  orders Order[]
+
+  @@index([userId])
+}
+
+// ─────────────────────────────────────────
+// STORES (Sellers)
+// ─────────────────────────────────────────
+
+model Store {
+  id              String       @id @default(cuid())
+  sellerId        String       @unique
+  seller          User         @relation(fields: [sellerId], references: [id], onDelete: Cascade)
+  storeName       String
+  description     String?
+  logo            String?
+  cover           String?
+  category        String?
+  city            String?
+  address         String?
+  phone           String?
+  email           String?
+  crNumber        String?
+  deliveryTime    String?
+  minOrder        Float        @default(0)
+  deliveryFee     Float        @default(10)
+  rating          Float        @default(0)
+  ratingCount     Int          @default(0)
+  status          SellerStatus @default(pending)
+  rejectionReason String?
+  isOpen          Boolean      @default(true)
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+
+  products    Product[]
+  orders      Order[]
+  coupons     Coupon[]
+  reviews     Review[]
+  commissions Commission[]
+  balance     Balance?
+
+  @@index([status])
+  @@index([category])
+}
+
+// ─────────────────────────────────────────
+// PRODUCTS
+// ─────────────────────────────────────────
+
+model Product {
+  id           String   @id @default(cuid())
+  storeId      String
+  store        Store    @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  name         String
+  description  String?
+  price        Float
+  comparePrice Float?
+  stock        Int      @default(0)
+  unit         String   @default("قطعة")
+  category     String
+  images       String[]
+  isActive     Boolean  @default(true)
+  rating       Float    @default(0)
+  ratingCount  Int      @default(0)
+  salesCount   Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  orderItems    OrderItem[]
+  reviews       Review[]
+  wishlistItems WishlistItem[]
+
+  @@unique([storeId, name])
+  @@index([storeId])
+  @@index([category])
+  @@index([isActive])
+}
+
+// ─────────────────────────────────────────
+// ORDERS
+// ─────────────────────────────────────────
+
+model Order {
+  id            String      @id @default(cuid())
+  customerId    String
+  customer      User        @relation("CustomerOrders", fields: [customerId], references: [id])
+  storeId       String
+  store         Store       @relation(fields: [storeId], references: [id])
+  addressId     String?
+  address       Address?    @relation(fields: [addressId], references: [id])
+  status        OrderStatus @default(pending)
+  total         Float
+  subtotal      Float
+  deliveryFee   Float       @default(10)
+  discount      Float       @default(0)
+  couponCode    String?
+  notes         String?
+  paymentMethod String      @default("cash")
+  driverId      String?
+  driver        Driver?     @relation(fields: [driverId], references: [id])
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  items      OrderItem[]
+  commission Commission?
+  dispute    Dispute?
+
+  @@index([customerId])
+  @@index([storeId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  name      String
+  image     String?
+  price     Float
+  qty       Int
+
+  @@index([orderId])
+}
+
+// ─────────────────────────────────────────
+// REVIEWS
+// ─────────────────────────────────────────
+
+model Review {
+  id         String   @id @default(cuid())
+  productId  String
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  storeId    String
+  store      Store    @relation(fields: [storeId], references: [id])
+  customerId String
+  customer   User     @relation(fields: [customerId], references: [id])
+  rating     Int
+  comment    String?
+  reply      String?
+  createdAt  DateTime @default(now())
+
+  @@unique([productId, customerId])
+  @@index([storeId])
+  @@index([productId])
+}
+
+// ─────────────────────────────────────────
+// WISHLIST
+// ─────────────────────────────────────────
+
+model WishlistItem {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, productId])
+  @@index([userId])
+}
+
+// ─────────────────────────────────────────
+// COUPONS
+// ─────────────────────────────────────────
+
+model Coupon {
+  id        String     @id @default(cuid())
+  storeId   String
+  store     Store      @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  code      String
+  type      CouponType @default(percent)
+  value     Float
+  minOrder  Float      @default(0)
+  maxUses   Int?
+  usedCount Int        @default(0)
+  active    Boolean    @default(true)
+  expiresAt DateTime?
+  createdAt DateTime   @default(now())
+
+  @@unique([storeId, code])
+  @@index([storeId])
+}
+
+// ─────────────────────────────────────────
+// COMMISSIONS
+// ─────────────────────────────────────────
+
+model Commission {
+  id         String   @id @default(cuid())
+  orderId    String   @unique
+  order      Order    @relation(fields: [orderId], references: [id])
+  storeId    String
+  store      Store    @relation(fields: [storeId], references: [id])
+  orderTotal Float
+  rate       Float
+  commission Float
+  paid       Boolean  @default(false)
+  createdAt  DateTime @default(now())
+
+  @@index([storeId])
+  @@index([createdAt])
+}
+
+// ─────────────────────────────────────────
+// BALANCE (Seller Wallet)
+// ─────────────────────────────────────────
+
+model Balance {
+  id        String   @id @default(cuid())
+  storeId   String   @unique
+  store     Store    @relation(fields: [storeId], references: [id])
+  available Float    @default(0)
+  pending   Float    @default(0)
+  updatedAt DateTime @updatedAt
+
+  transactions BalanceTransaction[]
+}
+
+model BalanceTransaction {
+  id          String      @id @default(cuid())
+  balanceId   String
+  balance     Balance     @relation(fields: [balanceId], references: [id])
+  type        PaymentType
+  amount      Float
+  description String
+  createdAt   DateTime    @default(now())
+
+  @@index([balanceId])
+}
+
+// ─────────────────────────────────────────
+// DRIVERS
+// ─────────────────────────────────────────
+
+model Driver {
+  id              String   @id @default(cuid())
+  userId          String   @unique
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  vehicleType     String?
+  vehiclePlate    String?
+  isAvailable     Boolean  @default(true)
+  deliveriesCount Int      @default(0)
+  createdAt       DateTime @default(now())
+
+  orders Order[]
+}
+
+// ─────────────────────────────────────────
+// DISPUTES
+// ─────────────────────────────────────────
+
+model Dispute {
+  id           String        @id @default(cuid())
+  orderId      String        @unique
+  order        Order         @relation(fields: [orderId], references: [id])
+  customerId   String
+  customer     User          @relation("CustomerDisputes", fields: [customerId], references: [id])
+  description  String
+  status       DisputeStatus @default(open)
+  resolution   String?
+  resolvedById String?
+  resolvedAt   DateTime?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+// ─────────────────────────────────────────
+// ADS
+// ─────────────────────────────────────────
+
+model Ad {
+  id        String     @id @default(cuid())
+  title     String
+  subtitle  String?
+  image     String?
+  link      String?
+  color     String?
+  position  AdPosition @default(banner)
+  active    Boolean    @default(true)
+  startAt   DateTime?
+  endAt     DateTime?
+  createdAt DateTime   @default(now())
+}
+
+// ─────────────────────────────────────────
+// PLATFORM SETTINGS
+// ─────────────────────────────────────────
+
+model PlatformSettings {
+  id              String  @id @default("singleton")
+  platformName    String  @default("QuickMart")
+  commissionRate  Float   @default(10)
+  minWithdraw     Float   @default(100)
+  deliveryFee     Float   @default(10)
+  supportPhone    String?
+  supportEmail    String?
+  maintenanceMode Boolean @default(false)
+  allowNewSellers Boolean @default(true)
+  requireOtp      Boolean @default(false)
+  updatedAt       DateTime @updatedAt
+}
+
+// ─────────────────────────────────────────
+// ACTIVITY LOG
+// ─────────────────────────────────────────
+
+model ActivityLog {
+  id        String   @id @default(cuid())
+  type      String
+  message   String
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+}
+
+// ─────────────────────────────────────────
+// ALERTS
+// ─────────────────────────────────────────
+
+model Alert {
+  id        String   @id @default(cuid())
+  type      String   @default("info")
+  title     String
+  message   String
+  severity  String   @default("low")
+  dismissed Boolean  @default(false)
+  createdAt DateTime @default(now())
+}

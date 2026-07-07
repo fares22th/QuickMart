@@ -1,0 +1,76 @@
+@import "tailwindcss";
+
+@layer base {
+  html {
+    font-family: 'Cairo', sans-serif;
+    direction: rtl;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    @apply bg-gray-50 text-gray-900;
+  }
+}
+
+@layer utilities {
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
+  .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+  /* ── Global admin button styles ─────────────────────────── */
+
+  /* Primary indigo button used everywhere with bg-admin */
+  .btn-admin,
+  button.bg-admin,
+  a.bg-admin {
+    background: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%) !important;
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.45) !important;
+    color: #fff !important;
+    font-weight: 700 !important;
+    transition: all 0.2s ease;
+  }
+  .btn-admin:hover,
+  button.bg-admin:hover,
+  a.bg-admin:hover {
+    box-shadow: 0 8px 28px rgba(99, 102, 241, 0.60) !important;
+    transform: translateY(-1px);
+  }
+  .btn-admin:active,
+  button.bg-admin:active,
+  a.bg-admin:active {
+    transform: scale(0.97) !important;
+  }
+
+  /* Red danger buttons */
+  button.bg-red-500,
+  button.bg-red-600 {
+    background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%) !important;
+    box-shadow: 0 6px 20px rgba(239, 68, 68, 0.40) !important;
+    font-weight: 700 !important;
+  }
+
+  /* Green approve/success buttons */
+  button.bg-green-500,
+  button.bg-green-600,
+  button.bg-emerald-500 {
+    background: linear-gradient(135deg, #22C55E 0%, #16A34A 100%) !important;
+    box-shadow: 0 6px 20px rgba(34, 197, 94, 0.40) !important;
+    font-weight: 700 !important;
+  }
+
+  /* Seller amber buttons */
+  button.bg-seller,
+  button.bg-amber-500,
+  button.bg-yellow-500 {
+    background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%) !important;
+    box-shadow: 0 6px 20px rgba(245, 158, 11, 0.40) !important;
+    font-weight: 700 !important;
+  }
+
+  /* Any white button on dark bg */
+  button.bg-white\/20 {
+    backdrop-filter: blur(8px);
+  }
+}
