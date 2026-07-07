@@ -77,6 +77,34 @@ app.get('/debug/db', async (_, res) => {
   }
 })
 
+// Debug — test multiple connection strings
+app.get('/debug/db-test', async (_, res) => {
+  const { PrismaClient } = await import('@prisma/client')
+  const project = 'hoyycmqzqiumsqukhqtd'
+  const pass    = '2002n9h15far'
+
+  const urls = {
+    direct:          `postgresql://postgres:${pass}@db.${project}.supabase.co:5432/postgres?sslmode=no-verify`,
+    pooler_session:  `postgresql://postgres.${project}:${pass}@aws-1-ap-south-1.pooler.supabase.com:5432/postgres?sslmode=no-verify`,
+    pooler_tx:       `postgresql://postgres.${project}:${pass}@aws-1-ap-south-1.pooler.supabase.com:6543/postgres?sslmode=no-verify&pgbouncer=true`,
+    pooler_tx_ssl:   `postgresql://postgres.${project}:${pass}@aws-1-ap-south-1.pooler.supabase.com:6543/postgres?sslmode=require&pgbouncer=true`,
+  }
+
+  const results = {}
+  for (const [name, url] of Object.entries(urls)) {
+    const client = new PrismaClient({ datasources: { db: { url } } })
+    try {
+      const count = await client.user.count()
+      results[name] = `✅ OK — ${count} users`
+    } catch (e) {
+      results[name] = `❌ ${e.message.slice(0, 120)}`
+    } finally {
+      await client.$disconnect().catch(() => {})
+    }
+  }
+  res.json(results)
+})
+
 // 404
 app.use((_, res) => res.status(404).json({ error: 'Not found' }))
 
