@@ -1,10 +1,7 @@
 import { PrismaClient } from '@prisma/client'
 import bcrypt from 'bcryptjs'
 
-const DB_URL = 'postgresql://postgres.hoyycmqzqiumsqukhqtd:2002n9h15far@aws-1-ap-south-1.pooler.supabase.com:5432/postgres'
-console.log('Connecting to:', DB_URL)
-
-const prisma = new PrismaClient({ datasources: { db: { url: DB_URL } } })
+const prisma = new PrismaClient()
 
 async function main() {
   console.log('🌱 Starting seed...')

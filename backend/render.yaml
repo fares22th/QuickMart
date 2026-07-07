@@ -3,7 +3,7 @@ services:
     name: quickmart-api
     runtime: node
     plan: free
-    buildCommand: npm ci && npx prisma generate
+    buildCommand: npm ci && npx prisma generate && npx prisma db push --accept-data-loss && node prisma/seed.js
     startCommand: node src/index.js
     healthCheckPath: /health
     envVars:
@@ -21,9 +21,3 @@ services:
         value: 15m
       - key: JWT_REFRESH_EXPIRES_IN
         value: 30d
-      - key: CLOUDINARY_CLOUD_NAME
-        sync: false
-      - key: CLOUDINARY_API_KEY
-        sync: false
-      - key: CLOUDINARY_API_SECRET
-        sync: false
